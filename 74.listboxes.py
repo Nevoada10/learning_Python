@@ -4,12 +4,26 @@ from tkinter import *
 
 
 def submit():
+    food = []
+
+    for index in listbox.curselection():
+        food.insert(index, listbox.get(index))
     print("You ordered:")
-    print(listbox.get(listbox.curselection()))  # Using the current selection.
+    for index in food:
+        print(index)
+    # print("You ordered:", listbox.get(listbox.curselection()))
+    # Using the current selection.
 
 
 def add():
-    listbox.#(entry_box.get())
+    listbox.insert(listbox.size() + 1, entry_box.get())
+    listbox.config(height=listbox.size())
+
+
+def delete():
+    for index in reversed(listbox.curselection()):  # Deleting, starting from
+        listbox.delete(listbox.curselection())  # Backwards
+        listbox.config(height=listbox.size())
 
 
 window = Tk()
@@ -20,7 +34,8 @@ listbox = Listbox(window,
                   font=("Constancia", 35),
                   width=12,
                   fg="Black",
-                  bg="Grey")
+                  bg="Grey",
+                  selectmode=MULTIPLE)
 
 listbox.insert(1, "Pizza")
 listbox.insert(2, "Pasta")
@@ -39,6 +54,11 @@ add_button = Button(window,
                     command=add
                     )
 
+delete_button = Button(window,
+                       text="Delete",
+                       command=delete
+                       )
+
 entry_box = Entry(window)
 
 # Displaying the window with all of your widgets
@@ -46,4 +66,6 @@ entry_box = Entry(window)
 entry_box.pack()
 listbox.pack()  # Or place.
 submit_button.pack()
+add_button.pack()
+delete_button.pack()
 window.mainloop()
